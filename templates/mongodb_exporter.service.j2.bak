@@ -1,0 +1,17 @@
+#jinja2: lstrip_blocks: True
+[Unit]
+Description=Percona MongoDB Exporter
+After=syslog.target network.target
+
+[Service]
+Type=simple
+Restart=always
+
+User={{ mongodb_exporter_system_user }}
+Group={{ mongodb_exporter_system_groups[0] }}
+
+ExecStart={{ mongodb_exporter_bin_dir.dest }}/mongodb_exporter \
+                --web.listen-address={{ mongodb_exporter_web_listen_address }} \
+                --web.telemetry-path={{ mongodb_exporter_web_telemetry_path }}
+[Install]
+WantedBy=multi-user.target
